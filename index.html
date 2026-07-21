@@ -1,432 +1,1935 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>K-Pop Discovery — Prototype</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>K-Pop Time Machine — Discover by Era, Concept & Memory</title>
+
 <style>
-  :root{
-    --bg:#0f1115; --card-bg:rgba(255,255,255,0.04);
-    --accent:#1DB954; --muted:rgba(255,255,255,0.6);
-    font-family:Inter,system-ui,Segoe UI,Arial;
+
+:root {
+  --bg: #0b0b10;
+  --panel: #14141c;
+  --panel-2: #1b1b25;
+  --text: #f5f3ef;
+  --muted: #9695a3;
+  --line: rgba(255,255,255,.1);
+  --pink: #ff5c9a;
+  --purple: #8f7cff;
+  --yellow: #ffd166;
+  --cyan: #64d8cb;
+  --radius: 24px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background:
+    radial-gradient(circle at 80% 0%, rgba(143,124,255,.16), transparent 28%),
+    radial-gradient(circle at 0% 50%, rgba(255,92,154,.1), transparent 25%),
+    var(--bg);
+  color: var(--text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  overflow-x: hidden;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* NAV */
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid var(--line);
+  background: rgba(11,11,16,.8);
+  backdrop-filter: blur(20px);
+}
+
+.nav-inner {
+  width: min(1180px, calc(100% - 40px));
+  margin: auto;
+  height: 72px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-weight: 950;
+  letter-spacing: -.08em;
+  font-size: 1.25rem;
+}
+
+.logo span {
+  color: var(--pink);
+}
+
+.nav-right {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+.nav-note {
+  color: var(--muted);
+  font-size: .75rem;
+}
+
+.nav-button {
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--text);
+  padding: 9px 15px;
+  border-radius: 999px;
+  font-size: .75rem;
+  font-weight: 800;
+}
+
+/* HERO */
+
+.hero {
+  width: min(1180px, calc(100% - 40px));
+  margin: auto;
+  padding: 110px 0 90px;
+  min-height: 720px;
+  display: flex;
+  align-items: center;
+}
+
+.hero-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr .8fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.eyebrow {
+  color: var(--pink);
+  font-size: .75rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  font-weight: 900;
+  margin-bottom: 25px;
+}
+
+.hero h1 {
+  font-size: clamp(4rem, 9vw, 8.5rem);
+  line-height: .82;
+  letter-spacing: -.1em;
+  max-width: 800px;
+}
+
+.hero h1 span {
+  display: block;
+  color: var(--pink);
+}
+
+.hero-copy {
+  max-width: 520px;
+  margin-top: 32px;
+  color: var(--muted);
+  font-size: 1.1rem;
+  line-height: 1.7;
+}
+
+.hero-actions {
+  margin-top: 35px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.primary-btn {
+  border: 0;
+  background: var(--pink);
+  color: #130b10;
+  padding: 15px 22px;
+  border-radius: 999px;
+  font-weight: 950;
+  transition: .25s;
+}
+
+.primary-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(255,92,154,.25);
+}
+
+.secondary-btn {
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--text);
+  padding: 15px 22px;
+  border-radius: 999px;
+  font-weight: 800;
+}
+
+/* ORBIT VISUAL */
+
+.orbit {
+  height: 450px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.orbit-ring {
+  position: absolute;
+  width: 350px;
+  height: 350px;
+  border: 1px solid rgba(255,255,255,.13);
+  border-radius: 50%;
+  animation: spin 30s linear infinite;
+}
+
+.orbit-ring.two {
+  width: 260px;
+  height: 260px;
+  animation-direction: reverse;
+  animation-duration: 20s;
+}
+
+.orbit-center {
+  width: 145px;
+  height: 145px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: 950;
+  letter-spacing: -.06em;
+  box-shadow: 0 0 80px rgba(255,92,154,.35);
+  z-index: 2;
+}
+
+.orbit-node {
+  position: absolute;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font-size: .7rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.node-1 {
+  top: 30px;
+  right: 40px;
+}
+
+.node-2 {
+  bottom: 55px;
+  left: 20px;
+}
+
+.node-3 {
+  top: 165px;
+  left: 0;
+}
+
+.node-4 {
+  bottom: 20px;
+  right: 65px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
-  html,body{height:100%;margin:0;background:var(--bg);color:#fff;overflow:hidden}
-  .app{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:18px}
-  .header{width:100%;max-width:420px;display:flex;align-items:center;justify-content:space-between}
-  .pill{background:#111214;padding:8px 12px;border-radius:999px;font-weight:700}
-  .filters{width:100%;max-width:420px;background:transparent;display:flex;gap:8px;flex-wrap:wrap}
-  /* CHIP: unselected = black bg + white text, selected = spotify green + dark text */
-  .chip{
-    background:#000;color:#fff;padding:8px 10px;border-radius:999px;cursor:pointer;font-size:13px;border:1px solid rgba(255,255,255,0.04);
-    display:inline-flex;align-items:center;gap:8px;
+}
+
+/* SECTION */
+
+.section {
+  width: min(1180px, calc(100% - 40px));
+  margin: auto;
+  padding: 100px 0;
+}
+
+.section-label {
+  color: var(--pink);
+  font-size: .7rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  font-weight: 950;
+  margin-bottom: 20px;
+}
+
+.section-title {
+  font-size: clamp(3rem, 6vw, 6rem);
+  line-height: .9;
+  letter-spacing: -.09em;
+  max-width: 800px;
+}
+
+.section-copy {
+  color: var(--muted);
+  max-width: 600px;
+  margin-top: 25px;
+  line-height: 1.7;
+}
+
+/* DESTINATIONS */
+
+.destination-section {
+  background: rgba(255,255,255,.025);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.destination-grid {
+  margin-top: 55px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.destination {
+  min-height: 240px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: .3s;
+  text-align: left;
+  color: var(--text);
+}
+
+.destination:hover {
+  transform: translateY(-8px);
+  border-color: var(--pink);
+  background: var(--panel-2);
+}
+
+.destination-icon {
+  font-size: 2.5rem;
+}
+
+.destination h3 {
+  font-size: 1.5rem;
+  letter-spacing: -.06em;
+}
+
+.destination p {
+  color: var(--muted);
+  font-size: .8rem;
+  line-height: 1.5;
+}
+
+.destination-arrow {
+  color: var(--pink);
+  font-weight: 950;
+}
+
+/* JOURNEY */
+
+.journey {
+  display: none;
+  background:
+    linear-gradient(180deg, rgba(143,124,255,.08), transparent),
+    var(--bg);
+}
+
+.journey.active {
+  display: block;
+}
+
+.journey-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  align-items: end;
+  margin-bottom: 50px;
+}
+
+.journey-kicker {
+  color: var(--yellow);
+  font-size: .7rem;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  font-weight: 950;
+}
+
+.journey-title {
+  font-size: clamp(3rem, 7vw, 7rem);
+  letter-spacing: -.1em;
+  line-height: .85;
+  margin-top: 14px;
+}
+
+.journey-description {
+  color: var(--muted);
+  max-width: 350px;
+  line-height: 1.6;
+}
+
+.exit-journey {
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  padding: 10px 15px;
+  border-radius: 999px;
+  font-size: .75rem;
+}
+
+/* TIMELINE */
+
+.timeline {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 25px;
+  margin-bottom: 40px;
+}
+
+.timeline-item {
+  min-width: 150px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--panel);
+  color: var(--muted);
+  text-align: left;
+}
+
+.timeline-item.active {
+  border-color: var(--pink);
+  color: var(--text);
+  background: rgba(255,92,154,.12);
+}
+
+.timeline-year {
+  font-size: 1.4rem;
+  font-weight: 950;
+  letter-spacing: -.06em;
+}
+
+.timeline-label {
+  font-size: .7rem;
+  margin-top: 5px;
+}
+
+/* DISCOVERY */
+
+.discovery-layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 20px;
+}
+
+.track-card {
+  min-height: 560px;
+  border-radius: 30px;
+  background:
+    linear-gradient(135deg, rgba(255,92,154,.22), transparent 40%),
+    var(--panel);
+  border: 1px solid var(--line);
+  padding: 35px;
+  position: relative;
+  overflow: hidden;
+}
+
+.track-card::after {
+  content: "";
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  background: rgba(143,124,255,.15);
+  right: -180px;
+  bottom: -180px;
+  filter: blur(10px);
+}
+
+.track-number {
+  color: var(--muted);
+  font-size: .75rem;
+  font-weight: 900;
+  letter-spacing: .1em;
+}
+
+.track-year {
+  margin-top: 80px;
+  color: var(--yellow);
+  font-size: .75rem;
+  letter-spacing: .15em;
+  font-weight: 950;
+}
+
+.track-title {
+  font-size: clamp(3rem, 7vw, 7rem);
+  line-height: .82;
+  letter-spacing: -.1em;
+  max-width: 700px;
+  margin-top: 12px;
+}
+
+.track-artist {
+  margin-top: 18px;
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+
+.track-meta {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+
+.tag {
+  padding: 8px 11px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: .7rem;
+}
+
+.track-story {
+  max-width: 550px;
+  color: var(--muted);
+  margin-top: 35px;
+  line-height: 1.7;
+}
+
+.track-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 30px;
+  position: relative;
+  z-index: 3;
+}
+
+.track-action {
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.05);
+  color: var(--text);
+  padding: 12px 17px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: .8rem;
+}
+
+.track-action.primary {
+  background: var(--text);
+  color: var(--bg);
+}
+
+/* SIDEBAR */
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.sidebar-card {
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: var(--panel);
+  padding: 24px;
+}
+
+.sidebar-label {
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  font-size: .65rem;
+  font-weight: 900;
+}
+
+.sidebar h3 {
+  font-size: 1.6rem;
+  letter-spacing: -.06em;
+  margin-top: 12px;
+}
+
+.sidebar p {
+  color: var(--muted);
+  font-size: .8rem;
+  line-height: 1.6;
+  margin-top: 10px;
+}
+
+.rabbit-hole {
+  width: 100%;
+  margin-top: 15px;
+  text-align: left;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--text);
+  padding: 13px;
+  border-radius: 14px;
+  font-size: .75rem;
+  font-weight: 800;
+  transition: .2s;
+}
+
+.rabbit-hole:hover {
+  border-color: var(--pink);
+  color: var(--pink);
+}
+
+/* SPOTIFY DEMO */
+
+.spotify-preview {
+  margin-top: 20px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 16px;
+  background: #0f0f15;
+}
+
+.spotify-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.album-art {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+}
+
+.spotify-info {
+  flex: 1;
+}
+
+.spotify-info strong {
+  display: block;
+  font-size: .85rem;
+}
+
+.spotify-info span {
+  color: var(--muted);
+  font-size: .7rem;
+}
+
+.play-button {
+  border: 0;
+  background: var(--text);
+  color: var(--bg);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  font-size: .8rem;
+}
+
+.progress {
+  height: 3px;
+  background: #30303b;
+  border-radius: 10px;
+  margin-top: 15px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--pink);
+  transition: width .2s linear;
+}
+
+/* INSIGHT */
+
+.insight-section {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.insight-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.big-quote {
+  font-size: clamp(3rem, 6vw, 6rem);
+  line-height: .9;
+  letter-spacing: -.1em;
+}
+
+.big-quote span {
+  color: var(--pink);
+}
+
+.insight-copy {
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.8;
+}
+
+/* FOOTER */
+
+.footer {
+  width: min(1180px, calc(100% - 40px));
+  margin: auto;
+  padding: 50px 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  color: var(--muted);
+  font-size: .75rem;
+}
+
+/* RESPONSIVE */
+
+@media(max-width: 950px) {
+
+  .hero-grid,
+  .insight-grid {
+    grid-template-columns: 1fr;
   }
-  .chip .count{background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:999px;margin-left:8px;font-weight:700;font-size:11px}
-  .chip.active{background:var(--accent);color:#041;box-shadow:0 6px 20px rgba(27,185,84,0.12)}
-  .feed{width:100%;max-width:420px;height:68vh;position:relative;overflow:hidden;border-radius:14px}
-  .card{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:18px;transition:transform .28s cubic-bezier(.2,.9,.2,1),opacity .28s;backdrop-filter: blur(6px)}
-  .card.hidden{opacity:0;transform:translateY(20px) scale(.99);pointer-events:none}
-  .card .meta{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px}
-  .artwrap{width:100%;height:54%;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;margin-bottom:12px;background:#000}
-  .artwrap iframe{width:100%;height:100%;border:0}
-  .artist{display:flex;align-items:center;gap:12px}
-  .artist img{width:44px;height:44px;border-radius:999px;object-fit:cover;border:2px solid rgba(255,255,255,0.06)}
-  .title{font-weight:700}
-  .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
-  .tag{background:rgba(255,255,255,0.06);padding:6px 8px;border-radius:999px;font-size:12px;color:#fff}
-  .actions{display:flex;gap:8px;align-items:center}
-  .btn{background:rgba(255,255,255,0.06);border:0;padding:8px 10px;border-radius:10px;cursor:pointer;color:#fff}
-  .heart{width:36px;height:36px;border-radius:9px;display:grid;place-items:center;transition:transform .18s}
-  .heart.saved{background:linear-gradient(135deg,#ff6b8a,#ff9a9a);color:#111}
-  .counter{position:absolute;left:12px;top:12px;background:rgba(0,0,0,0.28);padding:6px 10px;border-radius:999px;font-weight:700}
-  .dots{position:absolute;right:12px;top:12px;display:flex;flex-direction:column;gap:8px}
-  .dot{width:8px;height:8px;border-radius:99px;background:rgba(255,255,255,0.15);cursor:pointer}
-  .dot.active{transform:scale(1.6);background:var(--accent)}
-  .saved-anim{position:absolute;right:18px;bottom:18px;animation:pop .9s ease-out;pointer-events:none}
-  @keyframes pop{0%{transform:scale(.6);opacity:0}40%{transform:scale(1.15);opacity:1}100%{transform:scale(1);opacity:1}}
-  /* small */
-  @media (max-width:520px){
-    .app{padding:12px}
-    .feed{height:72vh}
+
+  .destination-grid {
+    grid-template-columns: 1fr 1fr;
   }
+
+  .discovery-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+}
+
+@media(max-width: 650px) {
+
+  .nav-note {
+    display: none;
+  }
+
+  .hero {
+    padding: 80px 0;
+  }
+
+  .hero h1 {
+    font-size: 4.6rem;
+  }
+
+  .orbit {
+    height: 350px;
+  }
+
+  .orbit-ring {
+    width: 280px;
+    height: 280px;
+  }
+
+  .orbit-ring.two {
+    width: 210px;
+    height: 210px;
+  }
+
+  .destination-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .journey-header {
+    display: block;
+  }
+
+  .exit-journey {
+    margin-top: 20px;
+  }
+
+  .track-card {
+    min-height: 600px;
+    padding: 25px;
+  }
+
+  .track-title {
+    font-size: 4rem;
+  }
+
+  .sidebar {
+    display: flex;
+  }
+
+  .footer {
+    display: block;
+  }
+
+  .footer p:last-child {
+    margin-top: 10px;
+  }
+
+}
+
 </style>
 </head>
+
 <body>
-<div class="app" id="app">
-  <div class="header">
-    <div class="pill">K-Pop Discovery</div>
-    <div style="color:var(--muted);font-size:13px">Demo • Swipe vertically</div>
+
+<nav class="nav">
+
+  <div class="nav-inner">
+
+    <div class="logo">
+      K-POP <span>TIME MACHINE</span>
+    </div>
+
+    <div class="nav-right">
+
+      <div class="nav-note">
+        A fandom-native discovery experiment
+      </div>
+
+      <a href="#destinations" class="nav-button">
+        Start exploring
+      </a>
+
+    </div>
+
   </div>
 
-  <div class="filters" id="filters">
-    <!-- dynamic chips -->
+</nav>
+
+<main>
+
+<section class="hero">
+
+  <div class="hero-grid">
+
+    <div>
+
+      <div class="eyebrow">
+        A different way to discover K-pop
+      </div>
+
+      <h1>
+        You don't search K-pop.
+        <span>You remember it.</span>
+      </h1>
+
+      <p class="hero-copy">
+
+        Explore K-pop through the things fans actually remember:
+        eras, concepts, years, sounds, debuts, forgotten hits,
+        and the songs that made you stan.
+
+      </p>
+
+      <div class="hero-actions">
+
+        <a href="#destinations" class="primary-btn">
+          Enter the Time Machine ↓
+        </a>
+
+        <a href="#insight" class="secondary-btn">
+          The idea
+        </a>
+
+      </div>
+
+    </div>
+
+    <div class="orbit">
+
+      <div class="orbit-ring"></div>
+
+      <div class="orbit-ring two"></div>
+
+      <div class="orbit-center">
+        FIND<br>
+        YOUR<br>
+        NEXT<br>
+        SONG
+      </div>
+
+      <div class="orbit-node node-1">
+        3rd Gen
+      </div>
+
+      <div class="orbit-node node-2">
+        Forgotten B-sides
+      </div>
+
+      <div class="orbit-node node-3">
+        2016
+      </div>
+
+      <div class="orbit-node node-4">
+        Dark Concepts
+      </div>
+
+    </div>
+
   </div>
 
-  <div class="feed" id="feed" aria-live="polite">
-    <div class="counter" id="counter">0 / 0</div>
-    <div class="dots" id="dots"></div>
+</section>
 
-    <!-- cards injected here -->
+<section class="section destination-section" id="destinations">
+
+  <div class="section-label">
+    Choose your rabbit hole
   </div>
 
-  <div style="width:100%;max-width:420px;display:flex;justify-content:space-between;margin-top:6px;color:var(--muted);font-size:13px">
-    <div>Try filters + vertical swipe</div>
-    <div>Prototype time saved: <strong style="color:var(--accent)">~ &lt;2 min</strong></div>
+  <h2 class="section-title">
+    Where do you want to go?
+  </h2>
+
+  <p class="section-copy">
+
+    There is no single correct way to discover music.
+    Pick a direction and let the algorithmic rabbit hole begin.
+
+  </p>
+
+  <div class="destination-grid">
+
+    <button class="destination" data-journey="era">
+
+      <div class="destination-icon">
+        ⏳
+      </div>
+
+      <div>
+
+        <h3>
+          Enter an era
+        </h3>
+
+        <p>
+          Travel through the generations that shaped K-pop.
+        </p>
+
+      </div>
+
+      <div class="destination-arrow">
+        Explore →
+      </div>
+
+    </button>
+
+    <button class="destination" data-journey="concept">
+
+      <div class="destination-icon">
+        🎬
+      </div>
+
+      <div>
+
+        <h3>
+          Choose a concept
+        </h3>
+
+        <p>
+          Dark, bright, dreamy, performance, experimental.
+        </p>
+
+      </div>
+
+      <div class="destination-arrow">
+        Explore →
+      </div>
+
+    </button>
+
+    <button class="destination" data-journey="year">
+
+      <div class="destination-icon">
+        💿
+      </div>
+
+      <div>
+
+        <h3>
+          Visit a year
+        </h3>
+
+        <p>
+          Revisit the moments that defined a K-pop timeline.
+        </p>
+
+      </div>
+
+      <div class="destination-arrow">
+        Explore →
+      </div>
+
+    </button>
+
+    <button class="destination" data-journey="rabbit">
+
+      <div class="destination-icon">
+        🕳️
+      </div>
+
+      <div>
+
+        <h3>
+          Fall down a rabbit hole
+        </h3>
+
+        <p>
+          Forgotten hits, iconic debuts, summer anthems and more.
+        </p>
+
+      </div>
+
+      <div class="destination-arrow">
+        Explore →
+      </div>
+
+    </button>
+
   </div>
-</div>
+
+</section>
+
+<section class="section journey" id="journey">
+
+  <div class="journey-header">
+
+    <div>
+
+      <div class="journey-kicker" id="journeyKicker">
+        Your journey begins
+      </div>
+
+      <h2 class="journey-title" id="journeyTitle">
+        Enter the era.
+      </h2>
+
+    </div>
+
+    <button class="exit-journey" id="exitJourney">
+      ← Choose another path
+    </button>
+
+  </div>
+
+  <p class="journey-description" id="journeyDescription">
+    Explore a curated path through K-pop history.
+  </p>
+
+  <div class="timeline" id="timeline"></div>
+
+  <div class="discovery-layout">
+
+    <div class="track-card">
+
+      <div class="track-number" id="trackNumber">
+        DISCOVERY 01 / 05
+      </div>
+
+      <div class="track-year" id="trackYear">
+        2016 · 3RD GEN
+      </div>
+
+      <h2 class="track-title" id="trackTitle">
+        WHISTLE
+      </h2>
+
+      <div class="track-artist" id="trackArtist">
+        BLACKPINK
+      </div>
+
+      <div class="track-meta" id="trackMeta">
+
+        <span class="tag">
+          Girl Group
+        </span>
+
+        <span class="tag">
+          Minimal
+        </span>
+
+        <span class="tag">
+          Hip-Hop
+        </span>
+
+      </div>
+
+      <p class="track-story" id="trackStory">
+
+        You entered through the rise of 3rd-generation girl-group identity:
+        minimal production, strong visual worlds, and songs that felt instantly
+        recognisable.
+
+      </p>
+
+      <div class="track-actions">
+
+        <button class="track-action primary" id="playButton">
+          ▶ Play preview
+        </button>
+
+        <button class="track-action" id="saveButton">
+          ♡ Save
+        </button>
+
+        <button class="track-action" id="nextButton">
+          Next discovery →
+        </button>
+
+      </div>
+
+      <div class="spotify-preview">
+
+        <div class="spotify-row">
+
+          <div class="album-art">
+            ♫
+          </div>
+
+          <div class="spotify-info">
+
+            <strong id="miniTrack">
+              WHISTLE
+            </strong>
+
+            <span id="miniArtist">
+              BLACKPINK
+            </span>
+
+          </div>
+
+          <button class="play-button" id="miniPlay">
+            ▶
+          </button>
+
+        </div>
+
+        <div class="progress">
+
+          <div class="progress-bar" id="progressBar"></div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <aside class="sidebar">
+
+      <div class="sidebar-card">
+
+        <div class="sidebar-label">
+          Why you're here
+        </div>
+
+        <h3 id="whyHere">
+          You wanted 3rd Gen.
+        </h3>
+
+        <p id="whyText">
+          This path explores the sounds, concepts and artists that shaped the era.
+        </p>
+
+      </div>
+
+      <div class="sidebar-card">
+
+        <div class="sidebar-label">
+          Go deeper
+        </div>
+
+        <h3>
+          One song is never just one song.
+        </h3>
+
+        <p>
+          Follow the thread into another era, concept or artist.
+        </p>
+
+        <button class="rabbit-hole" data-rabbit="era">
+          Explore this era →
+        </button>
+
+        <button class="rabbit-hole" data-rabbit="concept">
+          Explore this concept →
+        </button>
+
+        <button class="rabbit-hole" data-rabbit="artist">
+          Explore this artist →
+        </button>
+
+      </div>
+
+      <div class="sidebar-card">
+
+        <div class="sidebar-label">
+          Discovery pulse
+        </div>
+
+        <h3>
+          01:42
+        </h3>
+
+        <p>
+          Approximate time to your next new track.
+        </p>
+
+      </div>
+
+    </aside>
+
+  </div>
+
+</section>
+
+<section class="section insight-section" id="insight">
+
+  <div class="insight-grid">
+
+    <div>
+
+      <div class="section-label">
+        The product insight
+      </div>
+
+      <div class="big-quote">
+
+        Spotify organizes music by
+        <span>sound.</span>
+
+      </div>
+
+    </div>
+
+    <div class="insight-copy">
+
+      <p>
+
+        But K-pop fans often organize their taste differently.
+
+      </p>
+
+      <br>
+
+      <p>
+
+        They remember generations. Eras. Concepts. Debut waves.
+        The year a group changed its sound. The song that made them a fan.
+
+      </p>
+
+      <br>
+
+      <p>
+
+        This experiment explores what music discovery could look like
+        when the interface is organized around the cultural context
+        surrounding the music.
+
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+<footer class="footer">
+
+  <p>
+    K-Pop Time Machine · An independent product concept by Aliya Zeya
+  </p>
+
+  <p>
+    Built to explore fandom-native music discovery
+  </p>
+
+</footer>
 
 <script>
-/*
- Updated prototype data with your artist images and added tracks (ATEEZ, TWICE).
-*/
-const TRACKS = [
-  {
-    id: "1Zsy7gMUcHDhxC0bbyZmC2", // Monsta X — GAMBLER (demo)
-    artist: "MONSTA X",
-    track: "GAMBLER",
-    era: "3rd Gen",
-    concept: "dark",
-    group: "boy",
-    vibeColor: "#2b2a33",
-    artistImg: "https://ucarecdn.com/bb9910a8-3f95-423d-9569-7ef722782726/-/format/auto/-/preview/3000x3000/-/quality/lighter/"
-  },
-  {
-    id: "4XPXrcpyNr30Km6aPiflJy", // Stray Kids — God's Menu (demo)
-    artist: "Stray Kids",
-    track: "God's Menu",
-    era: "4th Gen",
-    concept: "performance",
-    group: "boy",
-    vibeColor: "#9b4dff",
-    artistImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQedFFWom--wlGfFVTvLKq1Iw0B_wwJEcY2lg&s"
-  },
-  {
-    id: "46E1ic6n099e76t5J1TbHn", // SHINee — View
-    artist: "SHINee",
-    track: "View",
-    era: "2nd Gen",
-    concept: "bright",
-    group: "boy",
-    vibeColor: "#1fb6ff",
-    artistImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQujaNIZx7w5V5lscD4d5QsOWQaPDqoEsNijQ&s"
-  },
-  {
-    id: "0ZeGfEAL5Rl4pd5LZBGuEK", // HWASA — Maria
-    artist: "HWASA",
-    track: "Maria",
-    era: "3rd Gen",
-    concept: "healing",
-    group: "solo",
-    vibeColor: "#ff8da1",
-    artistImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiGrUlNjFdLmd-kr9QJn30esQ3chvDlvIMIw&s"
-  },
-  {
-    id: "3Z4BxvgOJ8KupcDIV3OV2f", // ATEEZ — In Your Fantasy (your link)
-    artist: "ATEEZ",
-    track: "In Your Fantasy",
-    era: "4th Gen",
-    concept: "performance",
-    group: "boy",
-    vibeColor: "#ffb86b",
-    artistImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAVogPwuLtA1wGxRVOA1GByXEVQUL-n_5sFw&s"
-  },
-  {
-    id: "1Zr1SoGePJ3iKKakmmZaMR", // TWICE — SET ME FREE (your link)
-    artist: "TWICE",
-    track: "SET ME FREE",
-    era: "3rd Gen",
-    concept: "bright",
-    group: "girl",
-    vibeColor: "#ffd6e0",
-    artistImg: "https://www.billboard.com/wp-content/uploads/2023/02/feature-TWICE-women-in-music-billboard-2023-bb2-sunhye-shin-2-1260.jpg?w=875&h=583&crop=1"
-  }
-];
 
-const filtersSpec = {
-  "Era": ["2nd Gen","3rd Gen","4th Gen"],
-  // concepts reduced to the three you emphasized (plus performance for variety)
-  "Concept": ["dark","bright","healing","performance"],
-  "Group": ["boy","girl","solo","co-ed"]
+const journeyData = {
+
+  era: {
+
+    kicker: "YOU CHOSE: ERA",
+
+    title: "Enter the era.",
+
+    description: "Move through the generations that shaped how K-pop sounds, looks and feels.",
+
+    why: "You wanted to travel through K-pop history.",
+
+    whyText: "This path follows the sounds, concepts and artists that defined different generations.",
+
+    timeline: [
+
+      ["2008", "2nd Gen"],
+
+      ["2012", "2nd Gen"],
+
+      ["2015", "3rd Gen"],
+
+      ["2017", "3rd Gen"],
+
+      ["2020", "4th Gen"],
+
+      ["2024", "5th Gen"]
+
+    ],
+
+    tracks: [
+
+      {
+
+        year: "2016 · 3RD GEN",
+
+        title: "WHISTLE",
+
+        artist: "BLACKPINK",
+
+        meta: ["Girl Group", "Minimal", "Hip-Hop"],
+
+        story: "You entered through the rise of 3rd-generation girl-group identity: minimal production, strong visual worlds, and songs that felt instantly recognisable."
+
+      },
+
+      {
+
+        year: "2017 · 3RD GEN",
+
+        title: "RED FLAVOR",
+
+        artist: "RED VELVET",
+
+        meta: ["Girl Group", "Bright", "Summer"],
+
+        story: "The bright side of 3rd Gen was just as distinctive: colourful concepts, addictive hooks and a summer sound that became its own cultural moment."
+
+      },
+
+      {
+
+        year: "2018 · 3RD GEN",
+
+        title: "LOVE SCENARIO",
+
+        artist: "iKON",
+
+        meta: ["Boy Group", "Emotional", "Minimal"],
+
+        story: "A reminder that the biggest K-pop moments do not always arrive with the loudest production. Sometimes the hook does all the work."
+
+      },
+
+      {
+
+        year: "2019 · 3RD GEN",
+
+        title: "GOGOBEBE",
+
+        artist: "MAMAMOO",
+
+        meta: ["Girl Group", "Performance", "Confident"],
+
+        story: "Follow the thread into artists who built entire identities around performance, personality and a refusal to fit neatly into one concept."
+
+      },
+
+      {
+
+        year: "2020 · 4TH GEN",
+
+        title: "WANNABE",
+
+        artist: "ITZY",
+
+        meta: ["Girl Group", "Performance", "Bold"],
+
+        story: "The timeline shifts. Performance becomes even more central, and the next generation begins building its own visual and sonic language."
+
+      }
+
+    ]
+
+  },
+
+  concept: {
+
+    kicker: "YOU CHOSE: CONCEPT",
+
+    title: "Choose a feeling.",
+
+    description: "Explore the visual and emotional worlds that make K-pop more than just a genre.",
+
+    why: "You wanted a concept, not a playlist.",
+
+    whyText: "This path follows the visual identities and emotional worlds that artists build around their music.",
+
+    timeline: [
+
+      ["DARK", "Intense"],
+
+      ["BRIGHT", "Energetic"],
+
+      ["DREAMY", "Ethereal"],
+
+      ["PERFORM", "Powerful"],
+
+      ["EXPERI", "Unusual"]
+
+    ],
+
+    tracks: [
+
+      {
+
+        year: "DARK · 2019",
+
+        title: "FEAR",
+
+        artist: "SEVENTEEN",
+
+        meta: ["Boy Group", "Dark", "Performance"],
+
+        story: "You entered through the darker side of K-pop: theatrical, intense and built around a concept that continues beyond the song itself."
+
+      },
+
+      {
+
+        year: "DREAMY · 2018",
+
+        title: "SECRET",
+
+        artist: "WJSN",
+
+        meta: ["Girl Group", "Dreamy", "Ethereal"],
+
+        story: "Some concepts feel less like a theme and more like a universe. Dreamy K-pop creates an entire world for the listener to step into."
+
+      },
+
+      {
+
+        year: "BRIGHT · 2017",
+
+        title: "RED FLAVOR",
+
+        artist: "RED VELVET",
+
+        meta: ["Girl Group", "Bright", "Summer"],
+
+        story: "Bright does not mean simple. The best bright concepts create an instantly recognisable emotional world that fans return to every summer."
+
+      },
+
+      {
+
+        year: "PERFORMANCE · 2020",
+
+        title: "WANNABE",
+
+        artist: "ITZY",
+
+        meta: ["Girl Group", "Performance", "Bold"],
+
+        story: "The performance concept turns choreography into part of the product: something to watch, remember and recreate."
+
+      }
+
+    ]
+
+  },
+
+  year: {
+
+    kicker: "YOU CHOSE: YEAR",
+
+    title: "Visit a moment.",
+
+    description: "Pick a year and follow the songs, concepts and artists that made it feel like its own chapter.",
+
+    why: "You wanted to go somewhere specific.",
+
+    whyText: "A year can be more than a date. It can be a sound, a visual identity and a collection of memories.",
+
+    timeline: [
+
+      ["2012", "The year"],
+
+      ["2015", "The year"],
+
+      ["2016", "The year"],
+
+      ["2017", "The year"],
+
+      ["2019", "The year"]
+
+    ],
+
+    tracks: [
+
+      {
+
+        year: "2015 · THE MOMENT",
+
+        title: "VIEW",
+
+        artist: "SHINee",
+
+        meta: ["Boy Group", "House", "Iconic"],
+
+        story: "2015 was a year of experimentation, polished concepts and songs that still feel surprisingly modern years later."
+
+      },
+
+      {
+
+        year: "2016 · THE MOMENT",
+
+        title: "WHISTLE",
+
+        artist: "BLACKPINK",
+
+        meta: ["Girl Group", "Minimal", "Debut"],
+
+        story: "A year where new identities arrived fully formed and the boundaries between music, visual identity and fandom became even more connected."
+
+      },
+
+      {
+
+        year: "2017 · THE MOMENT",
+
+        title: "RED FLAVOR",
+
+        artist: "RED VELVET",
+
+        meta: ["Girl Group", "Bright", "Summer"],
+
+        story: "A year full of songs that became memories: instantly recognisable hooks, strong concepts and the feeling of being there when it happened."
+
+      }
+
+    ]
+
+  },
+
+  rabbit: {
+
+    kicker: "RABBIT HOLE UNLOCKED",
+
+    title: "Find the forgotten ones.",
+
+    description: "The songs you forgot existed. The songs you almost became obsessed with. The songs waiting for a second chance.",
+
+    why: "You wanted something you may have missed.",
+
+    whyText: "This path is designed for the moment when you want to find something familiar enough to love but unexpected enough to feel new.",
+
+    timeline: [
+
+      ["B-SIDES", "Deep cuts"],
+
+      ["DEBUTS", "First era"],
+
+      ["SUMMER", "Seasonal"],
+
+      ["UNDERRATED", "Hidden"],
+
+      ["NOSTALGIA", "Memory"]
+
+    ],
+
+    tracks: [
+
+      {
+
+        year: "DEEP CUT · 2017",
+
+        title: "KINGDOM COME",
+
+        artist: "RED VELVET",
+
+        meta: ["B-Side", "R&B", "Underrated"],
+
+        story: "The rabbit hole begins with the songs that fans quietly insist should have been bigger. Sometimes the best discovery is hiding behind the title track."
+
+      },
+
+      {
+
+        year: "DEBUT ERA · 2015",
+
+        title: "CLOSER",
+
+        artist: "OH MY GIRL",
+
+        meta: ["Girl Group", "Dreamy", "Underrated"],
+
+        story: "Some songs do not become memories immediately. They wait until you discover them at exactly the right time."
+
+      },
+
+      {
+
+        year: "SUMMER · 2018",
+
+        title: "BOOMERANG",
+
+        artist: "WANNA ONE",
+
+        meta: ["Boy Group", "Bright", "Pop"],
+
+        story: "A reminder that nostalgia is not always about the biggest song. Sometimes it is about the song that brings back an entire summer."
+
+      }
+
+    ]
+
+  }
+
 };
 
-let activeFilters = { Era: new Set(), Concept: new Set(), Group: new Set() };
-let filtered = [...TRACKS];
-let currentIndex = 0;
+let currentJourney = null;
+let currentTrack = 0;
+let isPlaying = false;
+let progress = 0;
+let timer = null;
 
-const feed = document.getElementById('feed');
-const filtersEl = document.getElementById('filters');
-const counterEl = document.getElementById('counter');
-const dotsEl = document.getElementById('dots');
+const journeySection = document.getElementById("journey");
+const journeyKicker = document.getElementById("journeyKicker");
+const journeyTitle = document.getElementById("journeyTitle");
+const journeyDescription = document.getElementById("journeyDescription");
+const timeline = document.getElementById("timeline");
+const trackNumber = document.getElementById("trackNumber");
+const trackYear = document.getElementById("trackYear");
+const trackTitle = document.getElementById("trackTitle");
+const trackArtist = document.getElementById("trackArtist");
+const trackMeta = document.getElementById("trackMeta");
+const trackStory = document.getElementById("trackStory");
+const whyHere = document.getElementById("whyHere");
+const whyText = document.getElementById("whyText");
+const miniTrack = document.getElementById("miniTrack");
+const miniArtist = document.getElementById("miniArtist");
+const playButton = document.getElementById("playButton");
+const miniPlay = document.getElementById("miniPlay");
+const progressBar = document.getElementById("progressBar");
+const saveButton = document.getElementById("saveButton");
 
-function createFilterChips(){
-  filtersEl.innerHTML = '';
-  for(const [group, arr] of Object.entries(filtersSpec)){
-    const label = document.createElement('div');
-    label.style.width='100%';
-    label.style.display='flex';
-    label.style.gap='8px';
-    label.style.alignItems='center';
-    label.style.flexWrap='wrap';
-    const heading = document.createElement('div');
-    heading.textContent = group + ':';
-    heading.style.color = 'var(--muted)';
-    heading.style.fontSize='12px';
-    heading.style.marginRight='6px';
-    label.appendChild(heading);
+function startJourney(type) {
 
-    arr.forEach(opt=>{
-      const chip = document.createElement('button');
-      chip.className='chip';
-      chip.dataset.group = group;
-      chip.dataset.opt = opt;
-      // when unselected: black bg + white text (visible) as you requested
-      chip.innerHTML = `${opt} <span class="count" style="display:none">0</span>`;
-      chip.addEventListener('click',()=>toggleFilter(chip));
-      label.appendChild(chip);
-    });
-    filtersEl.appendChild(label);
-  }
-  updateChipCounts();
-}
+  currentJourney = journeyData[type];
 
-function toggleFilter(chip){
-  const group = chip.dataset.group;
-  const opt = chip.dataset.opt;
-  const set = activeFilters[group];
-  if(set.has(opt)) set.delete(opt); else set.add(opt);
-  chip.classList.toggle('active', set.has(opt));
-  updateFiltered();
-  updateChipCounts();
-}
+  currentTrack = 0;
 
-function updateChipCounts(){
-  const chips = document.querySelectorAll('.chip');
-  chips.forEach(c=>{
-    const g = c.dataset.group, o = c.dataset.opt;
-    const count = TRACKS.filter(t=> tMatchesFilter(t, {[g]: new Set([o])})).length;
-    const badge = c.querySelector('.count');
-    if(count>0){ badge.style.display='inline-block'; badge.textContent = count; } else { badge.style.display='none'; }
-  });
-}
+  journeyKicker.textContent = currentJourney.kicker;
 
-function tMatchesFilter(item, filters){
-  for(const [g,set] of Object.entries(filters)){
-    if(set.size===0) continue;
-    if(g==="Era"){ if(!set.has(item.era)) return false; }
-    if(g==="Concept"){ if(!set.has(item.concept)) return false; }
-    if(g==="Group"){ if(!set.has(item.group)) return false; }
-  }
-  return true;
-}
+  journeyTitle.textContent = currentJourney.title;
 
-function updateFiltered(){
-  const active = {};
-  for(const [k,v] of Object.entries(activeFilters)){
-    active[k] = v;
-  }
-  filtered = TRACKS.filter(t=> tMatchesFilter(t, active));
-  if(filtered.length===0){
-    renderNoResults();
-    return;
-  }
-  if(currentIndex >= filtered.length) currentIndex = 0;
-  renderFeed();
-}
+  journeyDescription.textContent = currentJourney.description;
 
-function renderNoResults(){
-  feed.innerHTML = `<div class="card" style="display:flex;align-items:center;justify-content:center"><div style="text-align:center;color:var(--muted)"><div style="font-size:18px;font-weight:700">No results</div><div style="margin-top:6px">Try toggling filters</div></div></div>`;
-  counterEl.textContent = `0 / 0`;
-  dotsEl.innerHTML = '';
-}
+  whyHere.textContent = currentJourney.why;
 
-function renderFeed(){
-  feed.querySelectorAll('.card')?.forEach(n=>n.remove());
-  dotsEl.innerHTML = '';
+  whyText.textContent = currentJourney.whyText;
 
-  filtered.forEach((t, idx)=>{
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.style.background = `linear-gradient(180deg, ${hexAlpha(t.vibeColor,0.08)} 0%, rgba(0,0,0,0.28) 100%)`;
-    card.style.zIndex = filtered.length - idx;
-    if(idx !== currentIndex) card.classList.add('hidden');
+  timeline.innerHTML = "";
 
-    // art (Spotify embed)
-    const artwrap = document.createElement('div');
-    artwrap.className = 'artwrap';
-    const iframe = document.createElement('iframe');
-    iframe.src = `https://open.spotify.com/embed/track/${t.id}`;
-    iframe.allow = "encrypted-media";
-    artwrap.appendChild(iframe);
+  currentJourney.timeline.forEach((item, index) => {
 
-    const meta = document.createElement('div');
-    meta.className = 'meta';
-    meta.innerHTML = `
-      <div style="flex:1">
-        <div class="artist">
-          <img src="${t.artistImg}" alt="${t.artist}">
-          <div>
-            <div class="title">${escapeHtml(t.track)}</div>
-            <div style="font-size:12px;color:var(--muted)">${escapeHtml(t.artist)}</div>
-          </div>
-        </div>
-        <div class="tags">
-          <div class="tag">${t.era}</div>
-          <div class="tag">${t.concept}</div>
-          <div class="tag">${t.group}</div>
-        </div>
-      </div>
-      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px">
-        <div class="actions">
-          <button class="btn" title="Add to playlist">＋</button>
-          <button class="btn" title="Follow">Follow</button>
-          <button class="btn heart" title="Save">${heartSvg(false)}</button>
-        </div>
-      </div>
-    `;
-    card.appendChild(artwrap);
-    card.appendChild(meta);
-    feed.appendChild(card);
+    const button = document.createElement("button");
 
-    // dot
-    const dot = document.createElement('div');
-    dot.className='dot';
-    dot.title = `${t.track} — ${t.artist}`;
-    if(idx===currentIndex) dot.classList.add('active');
-    dot.addEventListener('click', ()=> { jumpTo(idx); });
-    dotsEl.appendChild(dot);
+    button.className = "timeline-item";
 
-    // quick action bindings
-    const heartBtn = card.querySelector('.heart');
-    heartBtn.addEventListener('click', (e)=>{
-      e.stopPropagation();
-      const saved = heartBtn.classList.toggle('saved');
-      heartBtn.innerHTML = heartSvg(saved);
-      if(saved){ showSavedAnim(card, t.track); }
-    });
-
-    card.querySelector('button[title="Add to playlist"]').addEventListener('click', (ev)=>{
-      ev.stopPropagation();
-      flashMsg(card, 'Added to playlist');
-    });
-    card.querySelector('button[title="Follow"]').addEventListener('click', (ev)=>{
-      ev.stopPropagation();
-      flashMsg(card, 'Followed artist');
-    });
-
-  });
-
-  updateUIControls();
-}
-
-function showSavedAnim(card, track){
-  const el = document.createElement('div');
-  el.className='saved-anim';
-  el.style.color='#fff';
-  el.innerHTML = `<div style="background:linear-gradient(135deg,#ff6b8a,#ff9a9a);padding:8px 10px;border-radius:10px;font-weight:700">Saved • ${escapeHtml(track)}</div>`;
-  card.appendChild(el);
-  setTimeout(()=>el.remove(), 1200);
-}
-
-function updateUIControls(){
-  counterEl.textContent = `${currentIndex+1} / ${filtered.length}`;
-  Array.from(dotsEl.children).forEach((d,i)=>d.classList.toggle('active', i===currentIndex));
-}
-
-/* Helpers for swipe navigation */
-let startY = null;
-let isTouch = false;
-const threshold = 60;
-
-function bindSwipe(){
-  feed.addEventListener('touchstart', e=>{ isTouch=true; startY = e.touches[0].clientY; });
-  feed.addEventListener('touchmove', e=>{ e.preventDefault(); });
-  feed.addEventListener('touchend', e=>{
-    if(startY===null) return;
-    const endY = e.changedTouches[0].clientY;
-    const diff = endY - startY;
-    if(diff < -threshold) next(); else if(diff > threshold) prev();
-    startY = null;
-  }, {passive:false});
-
-  let wheelCool = false;
-  window.addEventListener('wheel', (e)=>{
-    if(wheelCool) return;
-    if(Math.abs(e.deltaY) < 10) return;
-    wheelCool = true;
-    if(e.deltaY > 0) next(); else prev();
-    setTimeout(()=> wheelCool=false, 300);
-  }, {passive:true});
-}
-
-function next(){
-  const prevIndex = currentIndex;
-  currentIndex = Math.min(filtered.length-1, currentIndex+1);
-  animateSlide(prevIndex, currentIndex, -1);
-}
-function prev(){
-  const prevIndex = currentIndex;
-  currentIndex = Math.max(0, currentIndex-1);
-  animateSlide(prevIndex, currentIndex, 1);
-}
-
-function jumpTo(idx){
-  const prevIndex = currentIndex;
-  currentIndex = idx;
-  animateSlide(prevIndex, currentIndex, (idx>prevIndex)?-1:1);
-}
-
-function animateSlide(from, to, dir){
-  const cards = Array.from(feed.querySelectorAll('.card'));
-  cards.forEach((c,i)=>{
-    if(i===to){
-      c.classList.remove('hidden');
-      c.style.transform = `translateY(${dir*18}px)`;
-      c.style.opacity = 0;
-      requestAnimationFrame(()=>{ c.style.transform = ''; c.style.opacity = 1; });
-    } else if(i===from){
-      c.style.transform = `translateY(${ -dir*22 }px)`;
-      c.style.opacity = 0;
-      setTimeout(()=> c.classList.add('hidden'), 260);
-    } else {
-      c.classList.add('hidden');
+    if(index === 0) {
+      button.classList.add("active");
     }
+
+    button.innerHTML = `
+
+      <div class="timeline-year">
+        ${item[0]}
+      </div>
+
+      <div class="timeline-label">
+        ${item[1]}
+      </div>
+
+    `;
+
+    button.addEventListener("click", () => {
+
+      document
+        .querySelectorAll(".timeline-item")
+        .forEach(item => item.classList.remove("active"));
+
+      button.classList.add("active");
+
+      currentTrack = index % currentJourney.tracks.length;
+
+      renderTrack();
+
+    });
+
+    timeline.appendChild(button);
+
   });
-  updateUIControls();
+
+  renderTrack();
+
+  journeySection.classList.add("active");
+
+  setTimeout(() => {
+
+    journeySection.scrollIntoView({
+      behavior: "smooth"
+    });
+
+  }, 100);
+
 }
 
-/* tiny helpers */
-function hexAlpha(hex, a){
-  const c = hex.replace('#','');
-  const r = parseInt(c.substring(0,2),16);
-  const g = parseInt(c.substring(2,4),16);
-  const b = parseInt(c.substring(4,6),16);
-  return `rgba(${r},${g},${b},${a})`;
-}
-function escapeHtml(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
-function flashMsg(card, txt){
-  const el = document.createElement('div');
-  el.style.position='absolute'; el.style.left='18px'; el.style.bottom='18px'; el.style.background='rgba(0,0,0,0.5)';
-  el.style.padding='8px 12px'; el.style.borderRadius='8px'; el.style.fontWeight='700';
-  el.textContent = txt;
-  card.appendChild(el);
-  setTimeout(()=>el.remove(),900);
-}
-function heartSvg(saved){
-  if(saved) return `❤️`;
-  return `♡`;
+function renderTrack() {
+
+  const track =
+    currentJourney.tracks[currentTrack];
+
+  trackNumber.textContent =
+    `DISCOVERY ${String(currentTrack + 1).padStart(2,"0")} / ${String(currentJourney.tracks.length).padStart(2,"0")}`;
+
+  trackYear.textContent =
+    track.year;
+
+  trackTitle.textContent =
+    track.title;
+
+  trackArtist.textContent =
+    track.artist;
+
+  trackStory.textContent =
+    track.story;
+
+  miniTrack.textContent =
+    track.title;
+
+  miniArtist.textContent =
+    track.artist;
+
+  trackMeta.innerHTML = "";
+
+  track.meta.forEach(tag => {
+
+    const span =
+      document.createElement("span");
+
+    span.className =
+      "tag";
+
+    span.textContent =
+      tag;
+
+    trackMeta.appendChild(span);
+
+  });
+
+  resetPlayer();
+
 }
 
-/* init */
-createFilterChips();
-updateFiltered();
-bindSwipe();
+function nextTrack() {
 
-/* accessibility: keyboard up/down */
-window.addEventListener('keydown', (e)=>{
-  if(e.key==='ArrowDown') next();
-  if(e.key==='ArrowUp') prev();
+  currentTrack++;
+
+  if(currentTrack >= currentJourney.tracks.length) {
+
+    currentTrack = 0;
+
+  }
+
+  renderTrack();
+
+}
+
+function resetPlayer() {
+
+  isPlaying = false;
+
+  progress = 0;
+
+  clearInterval(timer);
+
+  progressBar.style.width = "0%";
+
+  playButton.textContent =
+    "▶ Play preview";
+
+  miniPlay.textContent =
+    "▶";
+
+}
+
+function togglePlay() {
+
+  if(isPlaying) {
+
+    isPlaying = false;
+
+    clearInterval(timer);
+
+    playButton.textContent =
+      "▶ Play preview";
+
+    miniPlay.textContent =
+      "▶";
+
+    return;
+
+  }
+
+  isPlaying = true;
+
+  playButton.textContent =
+    "Ⅱ Playing preview";
+
+  miniPlay.textContent =
+    "Ⅱ";
+
+  timer = setInterval(() => {
+
+    progress += 2;
+
+    progressBar.style.width =
+      progress + "%";
+
+    if(progress >= 100) {
+
+      resetPlayer();
+
+    }
+
+  }, 100);
+
+}
+
+document
+  .querySelectorAll(".destination")
+  .forEach(button => {
+
+    button.addEventListener("click", () => {
+
+      startJourney(
+        button.dataset.journey
+      );
+
+    });
+
+  });
+
+document
+  .getElementById("exitJourney")
+  .addEventListener("click", () => {
+
+    journeySection.classList.remove("active");
+
+    document
+      .getElementById("destinations")
+      .scrollIntoView({
+        behavior: "smooth"
+      });
+
+  });
+
+document
+  .getElementById("nextButton")
+  .addEventListener("click", nextTrack);
+
+playButton.addEventListener(
+  "click",
+  togglePlay
+);
+
+miniPlay.addEventListener(
+  "click",
+  togglePlay
+);
+
+saveButton.addEventListener("click", () => {
+
+  if(saveButton.textContent.includes("Saved")) {
+
+    saveButton.textContent =
+      "♡ Save";
+
+  } else {
+
+    saveButton.textContent =
+      "♥ Saved";
+
+  }
+
 });
+
+document
+  .querySelectorAll(".rabbit-hole")
+  .forEach(button => {
+
+    button.addEventListener("click", () => {
+
+      const type =
+        button.dataset.rabbit;
+
+      if(type === "era") {
+
+        startJourney("era");
+
+      }
+
+      if(type === "concept") {
+
+        startJourney("concept");
+
+      }
+
+      if(type === "artist") {
+
+        startJourney("rabbit");
+
+      }
+
+    });
+
+  });
+
 </script>
+
 </body>
 </html>
 
