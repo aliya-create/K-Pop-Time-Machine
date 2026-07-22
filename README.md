@@ -1,52 +1,68 @@
-## Better K‑Pop Discovery Filter for Spotify
+## K-Pop Time Machine
 
-A mini‑MVP that helps K‑Pop fans find the *right* tracks in under 2 minutes using fandom language : era, concept, and group type; instead of generic playlists.
+A fandom-native discovery experience built around how K-Pop fans remember music.
 
-👉 **Live demo:**  
+# Live Demo:
 https://aliya-create.github.io/Better-K-Pop-Discovery-Filter-for-Spotify/
 
-## The Problem
+The Idea
 
-K‑Pop fans currently bounce between:
+Most music platforms ask:
 
-- Generic Spotify playlists  
-- YouTube concept / stage searches  
-- Social recommendations (X/Twitter, TikTok, Insta)  
-- Then back to Spotify to actually listen
+“What song are you looking for?”
 
-Streaming apps are **playlist‑centric**, but fans are **era‑ and concept‑centric**, especially multi‑stans trying to keep up with 2nd/3rd/4th gen groups.
+But K-Pop fans often remember music differently.
 
-## The Solution
+They remember:
 
-A **K‑Pop‑only discovery surface** that sits on top of Spotify and speaks fandom language.
+An era
+A comeback
+A concept
+A generation
+A year
+A feeling
 
-**Core idea:** Pick your Era + Concept + Group Type → get a short vertical feed of tracks you can swipe through and save instantly.
+K-Pop Time Machine explores what happens when music discovery starts from that memory instead of a search bar.
 
-## Key Features
+The Experience
 
-- **Live Spotify embeds**  
-  30‑second previews with play/pause right inside the feed.
+Users can explore K-Pop through different entry points:
 
-- **Smart filters**  
-  - Era: 2nd Gen / 3rd Gen / 4th Gen  
-  - Concept: Dark / Bright / Healing / Performance  
-  - Group type: Boy Group / Girl Group / Solo / Co-ed
+⏳ Era — Go back to a specific period of K-Pop.
 
-- **Swipeable feed**  
-  - Vertical swipe on mobile  
-  - Mouse wheel + keyboard arrows on desktop  
+🎬 Concept — Explore a visual or emotional world.
 
-- **Quick actions**  
-  Save to library, add to playlist, and follow artist with immediate feedback.
+💿 Year — Revisit a specific moment in K-Pop history.
 
-- **Artist context**  
-  High‑quality photos and tags showing era, concept, and group type, so the feed feels like browsing photocards, not a plain list.
+🕳 Forgotten Songs — Rediscover tracks you used to love.
 
-  ## Why This Matters
+✨ Feeling — Start with a mood instead of a title.
 
-- K‑Pop streams have grown massively in the last few years, and Spotify’s K‑Pop playlists collect millions of saves.  
-- Fans already organize their taste around Era / Concept / Mood – the UI just needs to catch up.  
-- For a product or growth team, this mini‑MVP shows how to:
-  - Translate **qualitative fandom behavior** into filters and UX.  
-  - Use a **short, focused flow** to cut time‑to‑first‑new‑track.  
-  - Build a feature that could plug into existing recommendation systems.
+The goal is to make discovery feel less like searching a database and more like falling into a fandom rabbit hole.
+
+One memory leads to one song.
+
+One song leads to another artist.
+
+One artist leads to an entire era.
+
+Product Thinking
+
+This project explores a simple question:
+
+What if discovery interfaces were designed around how users remember things?
+
+The project demonstrates:
+
+Translating fandom behaviour into product concepts
+Designing around user mental models
+Turning qualitative language into interaction
+Building discovery experiences around exploration
+
+The long-term idea is not simply:
+
+“Find another song.”
+
+It is:
+
+##“Take me back to a feeling, a moment, or an entire era.”## 
