@@ -1,8 +1,8 @@
-## K-Pop Time Machine
+# K-Pop Time Machine
 
 A fandom-native discovery experience built around how K-Pop fans remember music.
 
-# Live Demo:
+## Live Demo:
 https://aliya-create.github.io/Better-K-Pop-Discovery-Filter-for-Spotify/
 
 The Idea
