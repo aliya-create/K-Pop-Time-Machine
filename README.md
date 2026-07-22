@@ -3,7 +3,7 @@
 A fandom-native discovery experience built around how K-Pop fans remember music.
 
 ## Live Demo:
-https://aliya-create.github.io/Better-K-Pop-Discovery-Filter-for-Spotify/
+(https://aliya-create.github.io/K-Pop-Time-Machine/)
 
 The Idea
 
@@ -65,4 +65,4 @@ The long-term idea is not simply:
 
 It is:
 
-##“Take me back to a feeling, a moment, or an entire era.”## 
+### “Take me back to a feeling, a moment, or an entire era.”
